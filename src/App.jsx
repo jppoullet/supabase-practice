@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 import Countries from "./components/countries";
-
-const supabase = createClient(
-  "https://hkbgripquxrybkogguai.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrYmdyaXBxdXhyeWJrb2dndWFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM5NjgzMzYsImV4cCI6MjA0OTU0NDMzNn0.S_3i97n-HgznZLdyhxeZtBeZl5xPwpVLDYGBmXKxvJU"
-);
+import supabase from "./config/supabaseClient";
+import Test from "./components/Test";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -26,10 +23,17 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // const user = supabase.auth.getUser();
+  const {
+    data: { user },
+  } = supabase.auth.getUser();
+
+  console.log(user);
+
   if (!session) {
-    return <Auth supabaseClient={supabase} />;
+    return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />;
   } else {
-    return <Countries></Countries>;
+    return <Countries />;
   }
 }
 
