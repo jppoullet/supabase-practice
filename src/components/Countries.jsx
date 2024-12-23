@@ -17,7 +17,6 @@ const Countries = () => {
 
   return (
     <div>
-      <div>Logged in! Countries</div>
       <ul>
         {countries.map((country) => (
           <li key={country.name}>{country.name}</li>
